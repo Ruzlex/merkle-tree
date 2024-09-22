@@ -68,7 +68,16 @@ class MerkleTree {
 
 
 function verifyProof(proof, nodeHash, rootHash) {
-    // TODO Verify proof chain
+    let currentHash = nodeHash;
+
+    for (let { hash, left } of proof) {
+        if (left) {
+            currentHash = concatHashes(hash, currentHash);
+        } else {
+            currentHash = concatHashes(currentHash, hash);
+        }
+    }
+    return currentHash === rootHash;
 }
 
 

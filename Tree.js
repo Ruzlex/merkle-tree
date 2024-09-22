@@ -16,12 +16,44 @@ class Tree {
         this.root = null;
     }
 
-    addNode(node){
-        // TODO 1 Implement 
+    addNode(node) {
+        if (this.root === null) {
+            this.root = node;
+        } else {
+            this._insertNode(this.root, node);
+        }
     }
 
-    hasNode(data){
-        // TODO 2 Implement 
+    _insertNode(current, newNode) {
+        if (newNode.data < current.data) {
+            if (current.left === null) {
+                current.left = newNode;
+            } else {
+                this._insertNode(current.left, newNode);
+            }
+        } else {
+            if (current.right === null) {
+                current.right = newNode;
+            } else {
+                this._insertNode(current.right, newNode);
+            }
+        }
+    }
+    hasNode(data) {
+        return this._searchNode(this.root, data);
+    }
+
+    _searchNode(current, data) {
+        if (current === null) {
+            return false;
+        }
+        if (data === current.data) {
+            return true;
+        } else if (data < current.data) {
+            return this._searchNode(current.left, data);
+        } else {
+            return this._searchNode(current.right, data);
+        }
     }
 }
 

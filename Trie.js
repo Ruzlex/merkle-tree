@@ -18,18 +18,48 @@ class Trie {
     }
 
     insert(word) {
-        // TODO Insert word symbol by symbol
+        let currentNode = this.root;
 
+        for (let i = 0; i < word.length; i++) {
+            const char = word[i];
+
+            if (!currentNode.children[char]) {
+                currentNode.children[char] = new TrieNode(char);
+            }
+
+            currentNode = currentNode.children[char];
+        }
+
+        currentNode.isWord = true;
     }
 
-    hasNode(word){
-        // TODO Check is word in Trie
-        return false;
+    hasNode(word) {
+        let currentNode = this.root;
+
+        for (let i = 0; i < word.length; i++) {
+            const char = word[i];
+
+            if (!currentNode.children[char]) {
+                return false;
+            }
+
+            currentNode = currentNode.children[char];
+        }
+
+        return currentNode.isWord;
     }
 
-    getAllNodes(){
-        // TODO returns all nodes as array
-        return [];
+    getAllNodes() {
+        const nodes = [];
+        function traverse(node) {
+            nodes.push(node);
+            for (const child in node.children) {
+                traverse(node.children[child]);
+            }
+        }
+
+        traverse(this.root);
+        return nodes;
     }
 }
 
